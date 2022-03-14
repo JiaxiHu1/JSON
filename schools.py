@@ -16,28 +16,42 @@ Map 3) Total price for in-state students living off campus over $50,000
 """
 
 #map 1 
+from cgitb import text
 import json
 import plotly 
+import csv
 from plotly import offline
 from plotly.graph_objs import Scattergeo, Layout
 
 
 
 infile = open('univ.json', 'r')
+list_of_schools = json.load(infile) 
 
-list_of_univ = json.load(infile) 
+readfile = open('ValueLabels.csv','r')
+csv_readfile = csv.reader(readfile,delimiter = ',')
+
+divisions = ["Atlantic Coast Conference", "Big Twelve Conference", "Big Ten Conference", "Pacific-12 Conference", "Southeastern Conference"]
+d_dict = {}
+
+for line in csv_readfile:
+    if line[2] in divisions:
+        d_dict[line[2]] = line[1]
 
 
-grad_women,enroll, schoolname, lons,lats = [],[], [], [],[]
 
-for i in list_of_univ:
-    if i["Graduation rate  women (DRVGR2020)"] > 50:
+grad_women,enroll, schoolname, lons,lats,text = [],[], [], [],[],[]
 
+
+
+for i in list_of_schools:
+    if str(i["NCAA"]["NAIA conference number football (IC2020)"]) in d_dict.values() and i["Graduation rate  women (DRVGR2020)"] > 50: 
+       
         grad_women = i["Graduation rate  women (DRVGR2020)"]
         grad_women.append(grad_women)
 
         enroll = i["Total  enrollment (DRVEF2020)"]
-        enroll.append(enroll)
+        #enroll.append(enroll)
 
         schoolname=i["instnm"]
         schoolname.append(schoolname)
@@ -47,6 +61,8 @@ for i in list_of_univ:
 
         lats = i["Latitude location of institution (HD2020)"]
         lats.append(lats)
+
+        text.append(schoolname+','+str(grad_women)+'%')
 
 #top 10 
 print(grad_women[:10])
