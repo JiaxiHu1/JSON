@@ -47,20 +47,20 @@ grad_women,enroll, schoolname, lons,lats,text = [],[], [], [],[],[]
 for i in list_of_schools:
     if str(i["NCAA"]["NAIA conference number football (IC2020)"]) in d_dict.values() and i["Graduation rate  women (DRVGR2020)"] > 50: 
        
-        grad_women = i["Graduation rate  women (DRVGR2020)"]
-        grad_women.append(grad_women)
+        grad_rate_women = i["Graduation rate  women (DRVGR2020)"]
+        grad_women.append(grad_rate_women)
 
         enroll = i["Total  enrollment (DRVEF2020)"]
         #enroll.append(enroll)
 
-        schoolname=i["instnm"]
-        schoolname.append(schoolname)
+        school=i["instnm"]
+        schoolname.append(school)
         
-        lons = i["Longitude location of institution (HD2020)"]
-        lons.append(lons)
+        lon = i["Longitude location of institution (HD2020)"]
+        lons.append(lon)
 
-        lats = i["Latitude location of institution (HD2020)"]
-        lats.append(lats)
+        lat = i["Latitude location of institution (HD2020)"]
+        lats.append(lat)
 
         text.append(schoolname+','+str(grad_women)+'%')
 
@@ -78,6 +78,7 @@ data = [
     {'type':'scattergeo',
     'lon':lons,
     'lat':lats,
+    'text':text,
     'grad_rate_for_women':grad_women,
     'institution':schoolname,
     'marker':{
