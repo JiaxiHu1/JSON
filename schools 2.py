@@ -19,8 +19,7 @@ Map 3) Total price for in-state students living off campus over $50,000
 #from cgitb import text
 import json
 import csv
-from plotly import offline
-from plotly.graph_objs import Scattergeo, Layout
+
 
 
 
@@ -52,7 +51,7 @@ for i in list_of_schools:
         black_american.append(black)
 
         e = i["Total  enrollment (DRVEF2020)"]
-        enroll.append(enroll)
+        enroll.append(e)
 
         school=i["instnm"]
         schoolname.append(school)
@@ -65,7 +64,8 @@ for i in list_of_schools:
 
         text.append(school+","+ str(black)+"%")
 
-
+from plotly import offline
+from plotly.graph_objs import Scattergeo, Layout
 
 data = [Scattergeo(lon=lons,lat=lats)]
 
@@ -74,9 +74,8 @@ data = [
     'lon':lons,
     'lat':lats,
     'text':text,
-    'institution':schoolname,
     'marker':{
-        'size':[2*e for e in enroll], 
+        'size':[e/1000 for e in enroll], 
         'color':enroll,
         'colorscale':'Viridis',
         'reversescale':True,

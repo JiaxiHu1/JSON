@@ -22,6 +22,7 @@ import csv
 
 
 
+
 infile = open('univ.json', 'r')
 list_of_schools = json.load(infile) 
 
@@ -51,7 +52,7 @@ for i in list_of_schools:
         grad_women.append(grad_rate_women)
 
         e = i["Total  enrollment (DRVEF2020)"]
-        enroll.append(enroll)
+        enroll.append(e)
 
         school=i["instnm"]
         #schoolname.append(school)
@@ -64,7 +65,6 @@ for i in list_of_schools:
 
         text.append(school+","+ str(grad_women)+"%")
 
-
 from plotly import offline
 from plotly.graph_objs import Scattergeo, Layout
 
@@ -75,9 +75,8 @@ data = [
     'lon':lons,
     'lat':lats,
     'text':text,
-    'grad_rate_for_women':grad_women,
     'marker':{
-        'size':[2*e for e in enroll], 
+        'size':[e/1500 for e in enroll], 
         'color':enroll,
         'colorscale':'Viridis',
         'reversescale':True,
